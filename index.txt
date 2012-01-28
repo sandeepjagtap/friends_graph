@@ -1,0 +1,12 @@
+1. Basic friends , lucene index
+ 
+2. Batch updates
+
+3. Cypher query , why better than Germin or others.  
+
+
+
+4. why not Jruby
+
+5. performance
+ 
