@@ -62,11 +62,11 @@ describe User do
       @user_node_2 = User.load_node(ranjeet)
 
       
-      @rel1 = @user_node_1.rels(User::Relationship::FRIENDS).first
+      @rel1 = @user_node_1.rels(Sociable::Relationship::FRIENDS).first
       @rel1.start_node.unique_identifier.should == "sanjag"
       @rel1.end_node.unique_identifier.should == "ranjag"
 
-      @rel2 = @user_node_2.rels(User::Relationship::FRIENDS).first
+      @rel2 = @user_node_2.rels(Sociable::Relationship::FRIENDS).first
       @rel2.start_node.unique_identifier.should == "ranjag"
       @rel2.end_node.unique_identifier.should == "sanjag"
      

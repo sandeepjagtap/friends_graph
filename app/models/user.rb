@@ -1,17 +1,16 @@
 class User < ActiveRecord::Base
 
-  module Relationship
-    FRIENDS = "friends"
-  end
+  include Sociable
+
+  node_in_graph_with(self,[])
 
   USER_INDEX = "users-index"
   @@neo_driver ||= Neography::Rest.new
-  @@neo_driver.create_node_index("users-index") unless  @@neo_driver.list_node_indexes.try(:include?, USER_INDEX)
   
   after_create :create_user_node_in_neo4j
 
   def friends_with(user)
-    User.load_node(self).both(Relationship::FRIENDS) << User.load_node(user)
+    User.load_node(self).both(Sociable::Relationship::FRIENDS) << User.load_node(user)
   end
   
   def create_user_node_in_neo4j
