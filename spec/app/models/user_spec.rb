@@ -72,6 +72,44 @@ describe User do
      
     end
   end
-  
+
+  context "suggested friends" do
+    before(:each) do
+      @neo_rest_client = Neography::Rest.new
+    end
+
+    after(:each) do
+        
+      [@sandeep,@ranjeet,@prasanna,@harun,@aman].each do |e|
+        rel = User.load_node(e).rels(Sociable::Relationship::FRIENDS).each do |r| 
+          @neo_rest_client.delete_relationship(rel)
+        end
+      end
+      
+      [@sandeep,@ranjeet,@prasanna,@harun,@aman].each do |e|
+        @neo_rest_client.delete_node(User.load_node(e))
+      end
+      
+    end
+    
+    it "should make users friends with each other" do
+      @sandeep = User.create({:first_name => "sandeep", :last_name => "jagtap", :unique_identifier => "sanjag" })
+      @ranjeet  = User.create({:first_name => "ranjeet", :last_name => "jagtap", :unique_identifier => "ranjag" })
+      @prasanna = User.create({:first_name => "prasanna", :last_name => "pendse", :unique_identifier => "prapen" })
+      @harun = User.create({:first_name => "harun", :last_name => "pathan", :unique_identifier => "harpat" })
+      @aman =  User.create({:first_name => "aman", :last_name => "king", :unique_identifier => "amakin" })
+
+      @prasanna.friends_with(@sandeep)
+      @sandeep.friends_with(@aman)
+      @sandeep.friends_with(@harun)
+      @aman.friends_with(@harun)
+      @aman.friends_with(@ranjeet)
+
+      actual =  @prasanna.suggested_friends.flatten
+      actual.should include "aman"
+      actual.should include "harun"
+      
+    end
+  end
   
 end
