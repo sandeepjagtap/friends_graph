@@ -13,7 +13,7 @@ describe User do
     
     it "should create a node and its index in neo4j database" do
       user = User.create({:first_name => "sandeep", :last_name => "jagtap", :unique_identifier => "sanjag" })
-      user_node_data  = @neo_rest_client.find_node_index(User::USER_INDEX, "unique_identifier", user.unique_identifier)
+      user_node_data  = @neo_rest_client.find_node_index("users-index", "unique_identifier", user.unique_identifier)
       user_node_data.should_not be_nil
       @user_node = Neography::Node.load(user_node_data)
 
