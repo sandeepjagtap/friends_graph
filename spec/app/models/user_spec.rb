@@ -46,10 +46,12 @@ describe User do
     end
 
     after(:each) do
-      @neo_rest_client.delete_relationship(@rel1)
-      @neo_rest_client.delete_relationship(@rel2)
-      @neo_rest_client.delete_node(@user_node_1)
-      @neo_rest_client.delete_node(@user_node_2)
+      [@rel1, @rel2].each do |rel|
+         @neo_rest_client.delete_relationship(rel)
+      end
+      [@user_node_1, @user_node_2].each do |node|
+        @neo_rest_client.delete_node(node)
+      end
     end
     
     it "should make users friends with each other" do
@@ -92,7 +94,7 @@ describe User do
       
     end
     
-    it "should make users friends with each other" do
+    it "should suggest friends" do
       @sandeep = User.create({:first_name => "sandeep", :last_name => "jagtap", :unique_identifier => "sanjag" })
       @ranjeet  = User.create({:first_name => "ranjeet", :last_name => "jagtap", :unique_identifier => "ranjag" })
       @prasanna = User.create({:first_name => "prasanna", :last_name => "pendse", :unique_identifier => "prapen" })
