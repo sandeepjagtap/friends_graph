@@ -82,14 +82,14 @@ describe User do
 
     after(:each) do
         
-      [@sandeep,@ranjeet,@prasanna,@harun,@aman].each do |e|
-        rel = User.load_node(e).rels(Sociable::Relationship::FRIENDS).each do |r| 
+      [@sandeep,@ranjeet,@prasanna,@harun,@aman].each do |user|
+        User.load_node(user).rels(Sociable::Relationship::FRIENDS).each do |rel| 
           @neo_rest_client.delete_relationship(rel)
         end
       end
       
-      [@sandeep,@ranjeet,@prasanna,@harun,@aman].each do |e|
-        @neo_rest_client.delete_node(User.load_node(e))
+      [@sandeep,@ranjeet,@prasanna,@harun,@aman].each do |user|
+        @neo_rest_client.delete_node(User.load_node(user))
       end
       
     end
